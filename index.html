@@ -1,24 +1,55 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>My Drive</title><link rel="stylesheet" href="style.css"></head>
+<meta name="color-scheme" content="light dark">
+<title>My Drive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css"></head>
 <body>
-<header><div class="logo">📁 My Drive</div>
-<input id="search" type="search" placeholder="Search in this folder">
-<div class="actions">
-<button id="btnUpload" class="primary">⬆ Upload</button><input id="fileInput" type="file" multiple hidden>
-<button id="btnFolder">＋ Folder</button>
-<button id="btnView" title="Toggle view">☰</button>
-<button id="btnSettings" title="Settings">⚙</button></div></header>
-<nav id="crumbs"></nav>
-<main id="drop"><div id="status"></div><div id="files" class="grid"></div>
-<div id="overlay">Drop files to upload</div></main>
+<aside id="sidebar">
+  <div class="brand"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>My Drive</div>
+  <button id="btnNew" class="primary big"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New</button>
+  <div id="newMenu" class="menu" hidden>
+    <button id="btnUpload"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Upload files</button>
+    <button id="btnFolder"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM12 11v5m-2.5-2.5h5"/></svg>New folder</button>
+  </div>
+  <input id="fileInput" type="file" multiple hidden>
+  <nav class="side-nav">
+    <a id="navHome" class="active"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+    <a id="navSettings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
+  </nav>
+  <div id="repoInfo" class="repo-info"></div>
+</aside>
+<div id="scrim"></div>
+<div id="mainCol">
+  <header>
+    <button id="btnMenu" class="icon-btn mobile-only" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    <div class="searchbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="search" type="search" placeholder="Search in this folder"></div>
+    <button id="btnView" class="icon-btn" aria-label="Toggle view"></button>
+  </header>
+  <nav id="crumbs"></nav>
+  <main id="drop"><div id="status"></div><div id="files" class="grid"></div>
+    <div id="overlay"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Drop files to upload</div></main>
+</div>
+<button id="fab" class="primary mobile-only" aria-label="Upload"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+
+<div id="viewer" hidden>
+  <div class="v-top"><div class="v-name" id="vName"></div>
+    <button id="vDownload" class="ghost"><svg viewBox="0 0 24 24"><path d="M12 4v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>Download</button>
+    <button id="vClose" class="icon-btn" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <button id="vPrev" class="nav-arrow" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></button>
+  <div id="vBody"></div>
+  <button id="vNext" class="nav-arrow" aria-label="Next"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button>
+</div>
+
 <dialog id="settings"><form method="dialog" id="settingsForm">
 <h2>Connect storage repo</h2>
 <label>Owner<input name="owner" required></label>
 <label>Repository<input name="repo" required></label>
 <label>Branch<input name="branch" value="main" required></label>
 <label>Fine-grained access token<input name="token" type="password" required></label>
-<p class="warn">⚠ The token is saved in this browser's localStorage only. It never leaves your browser except to talk to api.github.com. Don't use this on shared computers. Use a token limited to your storage repo with Contents read/write.</p>
-<div class="row"><button type="button" id="clearSettings">Forget token</button><button class="primary">Save</button></div>
+<p class="warn">The token is saved in this browser's localStorage only. It never leaves your browser except to talk to api.github.com. Don't use this on shared computers. Use a token limited to your storage repo with Contents read/write.</p>
+<div class="row"><button type="button" id="clearSettings" class="ghost">Forget token</button><button class="primary">Save</button></div>
 </form></dialog>
-</body><script src="app.js"></script></html>
+<div id="toast"></div>
+<script src="app.js"></script>
+</body></html>
