@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Drive</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><div class="logo">📁 My Drive</div>
+<input id="search" type="search" placeholder="Search in this folder">
+<div class="actions">
+<button id="btnUpload" class="primary">⬆ Upload</button><input id="fileInput" type="file" multiple hidden>
+<button id="btnFolder">＋ Folder</button>
+<button id="btnView" title="Toggle view">☰</button>
+<button id="btnSettings" title="Settings">⚙</button></div></header>
+<nav id="crumbs"></nav>
+<main id="drop"><div id="status"></div><div id="files" class="grid"></div>
+<div id="overlay">Drop files to upload</div></main>
+<dialog id="settings"><form method="dialog" id="settingsForm">
+<h2>Connect storage repo</h2>
+<label>Owner<input name="owner" required></label>
+<label>Repository<input name="repo" required></label>
+<label>Branch<input name="branch" value="main" required></label>
+<label>Fine-grained access token<input name="token" type="password" required></label>
+<p class="warn">⚠ The token is saved in this browser's localStorage only. It never leaves your browser except to talk to api.github.com. Don't use this on shared computers. Use a token limited to your storage repo with Contents read/write.</p>
+<div class="row"><button type="button" id="clearSettings">Forget token</button><button class="primary">Save</button></div>
+</form></dialog>
+</body><script src="app.js"></script></html>
